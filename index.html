@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Question Bank</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h3>Aun Syed Shah, Welcomes You to this Prototype</h3>
+    <h4>A Forum where we can share the questions</h4>
+    <h5>Type the question with course id</h5>
+    <div>
+      <form id="question_form">
+        <div class="mb-3">
+          <label for="question_title" class="form-label">Question Title</label>
+          <input type="text" class="form-control" id="question_title">
+        </div>
+        <div class="mb-3">
+          <select class="form-select" aria-label="Default select example" id="course_id">
+            <option selected>Select Course</option>
+            <option value="cs101">cs101</option>
+            <option value="cs201">cs201</option>
+            <option value="cs301">cs301</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit_btn">Submit Question</button>
+        <button type="submit" class="btn btn-primary" id="search_btn">Search by Course ID</button>
+      </form>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Question</th>
+          <th scope="col">Course Course</th>
+        </tr>
+      </thead>
+      <tbody id="question_insert">
+      </tbody>
+    </table>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+  <script>
+    const base_url = "https://delicate-sea-34797.pktriot.net/";
+    // function to get all questions
+    function get_questions() {
+      // disable submit button
+      document.getElementById("submit_btn").disabled = true;
+      // disable search button
+      document.getElementById("search_btn").disabled = true;
+      axios.get(`${base_url}questions`)
+        .then(function (response) {
+          // handle success
+          const question_insert = document.getElementById('question_insert');
+          question_insert.innerHTML = '';
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
+          for (let i = 0; i < response.data.length; i++) {
+            question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_id}</td></tr>`;
+          }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+    }
+    function post_question() {
+      let question_title = document.getElementById("question_title").value;
+      let course_id = document.getElementById("course_id").value;
+      console.log(question_title, course_id);
+      // disable submit button
+      document.getElementById("submit_btn").disabled = true;
+      axios.post(`${base_url}question`, {
+        question_title: question_title,
+        course_id: course_id
+      })
+        .then(function (response) {
+          get_questions();
+          // clear form
+          document.getElementById("question_form").reset();
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    // get all questions by course id
+    function get_questions_by_course_id() {
+      let course_id = document.getElementById("course_id").value;
+      // disable submit button
+      document.getElementById("search_btn").disabled = true;
+      // disable search button
+      document.getElementById("search_btn").disabled = true;
+      axios.get(`${base_url}question/${course_id}`)
+        .then(function (response) {
+          // handle success
+          const question_insert = document.getElementById('question_insert');
+          question_insert.innerHTML = '';
+          // enable submit button
+          document.getElementById("search_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
+          for (let i = 0; i < response.data.length; i++) {
+            question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_id}</td></tr>`;
+          }
+        })
+        .catch(function (error) {
+          // if errot code is 404
+          if (error.response.status == 404) {
+            const question_insert = document.getElementById('question_insert');
+            question_insert.innerHTML = '';
+            question_insert.innerHTML += `<tr><td colspan="2">No Questions Found</td></tr>`;
+            // enable submit button and search button
+            document.getElementById("submit_btn").disabled = false;
+            document.getElementById("search_btn").disabled = false;
+          }
+          console.log(error);
+        })
+    }
+    // on load
+    $(document).ready(function () {
+      get_questions();
+      $('#search_btn').click(function (e) {
+        e.preventDefault();
+        get_questions_by_course_id();
+      });
+      // submit button click
+      $('#submit_btn').click(function (e) {
+        e.preventDefault();
+        post_question();
+      });
+    });
+  </script>
+</body>
+
+</html>
