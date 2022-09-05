@@ -113,6 +113,7 @@
           document.getElementById("search_btn").disabled = false;
           // enable search button
           document.getElementById("search_btn").disabled = false;
+          console.log(response.data);
           for (let i = 0; i < response.data.length; i++) {
             question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_id}</td></tr>`;
           }
