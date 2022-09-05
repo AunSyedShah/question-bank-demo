@@ -74,6 +74,13 @@
         .catch(function (error) {
           // handle error
           console.log(error);
+          const question_insert = document.getElementById('question_insert');
+          question_insert.innerHTML = '';
+          question_insert.innerHTML += `<tr><td colspan="2">Can not connect to the Server now</td></tr>`;
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
         })
     }
     function post_question() {
@@ -95,6 +102,13 @@
         })
         .catch(function (error) {
           console.log(error);
+          const question_insert = document.getElementById('question_insert');
+          question_insert.innerHTML = '';
+          question_insert.innerHTML += `<tr><td colspan="2">Can not connect to the Server now</td></tr>`;
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
         });
     }
     // get all questions by course id
@@ -129,6 +143,13 @@
             document.getElementById("search_btn").disabled = false;
           }
           console.log(error);
+          const question_insert = document.getElementById('question_insert');
+          question_insert.innerHTML = '';
+          question_insert.innerHTML += `<tr><td colspan="2">Can not connect to the Server now</td></tr>`;
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
         })
     }
     // on load
