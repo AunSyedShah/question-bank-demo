@@ -67,8 +67,14 @@
           document.getElementById("submit_btn").disabled = false;
           // enable search button
           document.getElementById("search_btn").disabled = false;
-          for (let i = 0; i < response.data.length; i++) {
-            question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_id}</td></tr>`;
+          // if response is empty
+          if (response.data.length === 0) {
+            question_insert.innerHTML = `<tr><td colspan="2">No Questions Yet</td></tr>`;
+          }
+          else {
+            for (let i = 0; i < response.data.length; i++) {
+              question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_code}</td></tr>`;
+            }
           }
         })
         .catch(function (error) {
@@ -85,13 +91,14 @@
     }
     function post_question() {
       let question_title = document.getElementById("question_title").value;
-      let course_id = document.getElementById("course_id").value;
-      console.log(question_title, course_id);
+      let course_code = document.getElementById("course_id").value;
       // disable submit button
       document.getElementById("submit_btn").disabled = true;
+      // disable search button
+      document.getElementById("search_btn").disabled = true;
       axios.post(`${base_url}question`, {
         question_title: question_title,
-        course_id: course_id
+        course_code: course_code
       })
         .then(function (response) {
           get_questions();
@@ -99,6 +106,8 @@
           document.getElementById("question_form").reset();
           // enable submit button
           document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
         })
         .catch(function (error) {
           console.log(error);
@@ -129,7 +138,7 @@
           document.getElementById("search_btn").disabled = false;
           console.log(response.data);
           for (let i = 0; i < response.data.length; i++) {
-            question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_id}</td></tr>`;
+            question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_code}</td></tr>`;
           }
         })
         .catch(function (error) {
