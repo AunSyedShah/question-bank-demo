@@ -34,6 +34,10 @@
         </div>
         <button type="submit" class="btn btn-primary" id="submit_btn">Submit Question</button>
         <button type="submit" class="btn btn-primary" id="search_btn">Search by Course ID</button>
+        <br />
+        <div class="spinner-border text-warning my-1" role="status" id="wait_spinner">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </form>
     </div>
     <table class="table">
@@ -54,15 +58,19 @@
     const base_url = "https://delicate-sea-34797.pktriot.net/";
     // function to get all questions
     function get_questions() {
+      // set wait_spinner display to block using JQuery
+      $("#wait_spinner").css("display", "block");
+      const question_insert = document.getElementById('question_insert');
+      question_insert.innerHTML = '';
       // disable submit button
       document.getElementById("submit_btn").disabled = true;
       // disable search button
       document.getElementById("search_btn").disabled = true;
       axios.get(`${base_url}questions`)
         .then(function (response) {
+          // set wait_spinner display to none using JQuery
+          $("#wait_spinner").css("display", "none");
           // handle success
-          const question_insert = document.getElementById('question_insert');
-          question_insert.innerHTML = '';
           // enable submit button
           document.getElementById("submit_btn").disabled = false;
           // enable search button
@@ -90,6 +98,8 @@
         })
     }
     function post_question() {
+      // set wait_spinner display to block using JQuery
+      $("#wait_spinner").css("display", "block");
       let question_title = document.getElementById("question_title").value;
       let course_code = document.getElementById("course_id").value;
       // disable submit button
@@ -163,6 +173,8 @@
     }
     // on load
     $(document).ready(function () {
+      // disblae wait_spinner set to none using JQuery
+      $("#wait_spinner").css("display", "none");
       get_questions();
       $('#search_btn').click(function (e) {
         e.preventDefault();
