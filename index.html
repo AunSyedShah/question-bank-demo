@@ -147,28 +147,17 @@
           // enable search button
           document.getElementById("search_btn").disabled = false;
           console.log(response.data);
-          for (let i = 0; i < response.data.length; i++) {
-            question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_code}</td></tr>`;
+          if (response.data.length === 0) {
+            question_insert.innerHTML = `<tr><td colspan="2">No Questions Yet</td></tr>`;
+          }
+          else {
+            for (let i = 0; i < response.data.length; i++) {
+              question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_code}</td></tr>`;
+            }
           }
         })
         .catch(function (error) {
-          // if errot code is 404
-          if (error.response.status == 404) {
-            const question_insert = document.getElementById('question_insert');
-            question_insert.innerHTML = '';
-            question_insert.innerHTML += `<tr><td colspan="2">No Questions Found</td></tr>`;
-            // enable submit button and search button
-            document.getElementById("submit_btn").disabled = false;
-            document.getElementById("search_btn").disabled = false;
-          }
-          console.log(error);
-          const question_insert = document.getElementById('question_insert');
-          question_insert.innerHTML = '';
-          question_insert.innerHTML += `<tr><td colspan="2">Can not connect to the Server now</td></tr>`;
-          // enable submit button
-          document.getElementById("submit_btn").disabled = false;
-          // enable search button
-          document.getElementById("search_btn").disabled = false;
+
         })
     }
     // on load
