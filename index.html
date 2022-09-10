@@ -114,7 +114,7 @@
             const length_of_questions = questions.length;
             for (let i = 0; i < length_of_questions; i++) {
               const question = questions[i];
-              question_insert.innerHTML += `<tr><td>${question.question_title}</td><td>${question.course_code}</td><td><button class="btn btn-danger" onclick="delete_question(${question._id})">Delete</button></td></tr>`;
+              question_insert.innerHTML += `<tr><td>${question.question_title}</td><td>${question.course_code}</td><td><button class="btn btn-danger" onclick="delete_question('${question._id}')">Delete</button></td></tr>`;
             }
           }
         })
