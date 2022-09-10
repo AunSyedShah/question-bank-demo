@@ -57,6 +57,35 @@
     crossorigin="anonymous"></script>
   <script>
     const base_url = "https://aunsyedshah-questionbank.herokuapp.com/";
+    // delete question by id
+    function delete_question(id) {
+      // set wait_spinner display to block using JQuery
+      $("#wait_spinner").css("display", "block");
+      // disable submit button
+      document.getElementById("submit_btn").disabled = true;
+      // disable search button
+      document.getElementById("search_btn").disabled = true;
+      axios.delete(`${base_url}questions/${id}`)
+        .then(function (response) {
+          // set wait_spinner display to none using JQuery
+          $("#wait_spinner").css("display", "none");
+          // handle success
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
+          // get all questions
+          get_questions();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+          // enable submit button
+          document.getElementById("submit_btn").disabled = false;
+          // enable search button
+          document.getElementById("search_btn").disabled = false;
+        })
+    }
     // function to get all questions
     function get_questions() {
       // set wait_spinner display to block using JQuery
@@ -84,7 +113,8 @@
             const questions = response.data;
             const length_of_questions = questions.length;
             for (let i = 0; i < length_of_questions; i++) {
-              question_insert.innerHTML += `<tr><td>${questions[i].question_title}</td><td>${questions[i].course_code}</td><td>${questions[i]._id}</td></tr>`;
+              const question = questions[i];
+              question_insert.innerHTML += `<tr><td>${question.question_title}</td><td>${question.course_id}</td><td><button class="btn btn-danger" onclick="delete_question(${question.id})">Delete</button></td></tr>`;
             }
           }
         })
