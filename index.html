@@ -45,6 +45,7 @@
         <tr>
           <th scope="col">Question</th>
           <th scope="col">Course Course</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody id="question_insert">
@@ -80,8 +81,10 @@
             question_insert.innerHTML = `<tr><td colspan="2">No Questions Yet</td></tr>`;
           }
           else {
-            for (let i = 0; i < response.data.length; i++) {
-              question_insert.innerHTML += `<tr><td>${response.data[i].question_title}</td><td>${response.data[i].course_code}</td></tr>`;
+            const questions = response.data;
+            const length_of_questions = questions.length;
+            for (let i = 0; i < length_of_questions; i++) {
+              question_insert.innerHTML += `<tr><td>${questions[i].question_title}</td><td>${questions[i].course_code}</td><td>${questions[i]._id}</td></tr>`;
             }
           }
         })
@@ -160,6 +163,7 @@
 
         })
     }
+    
     // on load
     $(document).ready(function () {
       // disblae wait_spinner set to none using JQuery
