@@ -65,7 +65,7 @@
       document.getElementById("submit_btn").disabled = true;
       // disable search button
       document.getElementById("search_btn").disabled = true;
-      axios.delete(`${base_url}questions/${id}`)
+      axios.delete(`${base_url}question/${id}`)
         .then(function (response) {
           // set wait_spinner display to none using JQuery
           $("#wait_spinner").css("display", "none");
