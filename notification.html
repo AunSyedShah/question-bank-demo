@@ -40,6 +40,9 @@
             console.log(notifications);
             let html = "";
             notifications.forEach((notification) => {
+                notification.date = new Date(notification.date).toLocaleString("en-US", {
+                    timeZone: "Asia/Karachi"
+                });
                 html += `
           <tr>
             <td>${notification.notification_title}</td>
