@@ -15,18 +15,8 @@
 <body>
 
     <div class="container">
-        <div>
+        <div id="output">
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Notification</th>
-                    <th scope="col">Posted Date</th>
-                </tr>
-            </thead>
-            <tbody id="Notification_insert">
-            </tbody>
-        </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
@@ -39,15 +29,16 @@
             const notifications = response.data;
             console.log(notifications);
             let html = "";
-            notifications.forEach((notification) => {
-                html += `
-          <tr>
-            <td>${notification.notification_title}</td>
-            <td>${notification.date}</td>
-          </tr>
-        `;
-            });
-            $("#Notification_insert").html(html);
+            const length = notifications.length;
+            // bootstrap alert
+            for (let i = 0; i < length; i++) {
+                html += `<div class="alert alert-warning my-2" role="alert">
+  <h4 class="alert-heading">Well done!</h4>
+  <p>${notifications[i].notification_title}</p>
+  <hr>
+  <p class="mb-0">Khokar Public School</p>
+</div>`;
+            }
         };
         // on page load JQuery
         $(document).ready(function () {
