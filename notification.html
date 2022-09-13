@@ -29,9 +29,10 @@
             const notifications = response.data;
             console.log(notifications);
             let html = "";
-            const length = notifications.length;
+            const arr_length = notifications.length;
+            console.log(arr_length);
             // bootstrap alert
-            for (let i = 0; i < length; i++) {
+            for (let i = 0; i < arr_length; i++) {
                 html += `<div class="alert alert-warning my-2" role="alert">
   <h4 class="alert-heading">Well done!</h4>
   <p>${notifications[i].notification_title}</p>
